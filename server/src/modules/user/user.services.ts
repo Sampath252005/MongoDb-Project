@@ -14,11 +14,15 @@ class UserServices {
     return this.model.findById(userId);
   }
   // register new user
-  async register(payload: IUser) {
+  async register(payload: any) {
+    if (payload.password !== payload.confirmPassword) {
+      throw new CustomError(httpStatus.BAD_REQUEST, 'Passwords do not match');
+    }
+
     const user = await this.model.create(payload);
 
     const token = generateToken({ _id: user._id, email: user.email });
-    return { token };
+    return { token, user };
   }
 
   // login existing user
@@ -29,7 +33,7 @@ class UserServices {
       await verifyPassword(payload.password, user.password);
 
       const token = generateToken({ _id: user._id, email: user.email });
-      return { token };
+      return { token, user };
     } else {
       throw new CustomError(httpStatus.BAD_REQUEST, 'WrongCredentials');
     }

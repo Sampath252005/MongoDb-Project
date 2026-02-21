@@ -4,25 +4,31 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Field, FieldDescription, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import { useLogin } from '@/features/auth/auth.hooks';
+import { ILoginInput } from '@/features/auth/auth.types';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 const LoginForm = () => {
+  const handleLoginMutation = useLogin();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: '',
-      password: '',
+      email: 'shohan@gmail.com',
+      password: 'pass1234',
     },
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: ILoginInput) => {
+    await handleLoginMutation.mutateAsync(data);
+    router.refresh();
   };
 
   return (
@@ -67,7 +73,9 @@ const LoginForm = () => {
                 )}
               </Field>
               <Field>
-                <Button type='submit'>Login</Button>
+                <Button type='submit' disabled={handleLoginMutation.isPending}>
+                  Login
+                </Button>
               </Field>
 
               <FieldDescription className='text-center'>

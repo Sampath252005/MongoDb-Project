@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { IBM_Plex_Mono, Inter, Libre_Baskerville } from 'next/font/google';
 import './globals.css';
+import Providers from '@/components/providers';
 
 const fontSans = Inter({
   subsets: ['latin'],
@@ -35,7 +36,7 @@ export default function RootLayout({
       <body
         className={`${fontSans.variable} ${fontMono.variable} ${fontSerif.variable} font-sans antialiased`}
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

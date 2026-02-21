@@ -14,13 +14,14 @@ import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
+import { IRegisterInput } from '@/features/auth/auth.types';
+import { useRegister } from '@/features/auth/auth.hooks';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
+  const handleRegisterMutation = useRegister();
+  const router = useRouter();
+  const { register, handleSubmit } = useForm({
     defaultValues: {
       email: '',
       name: '',
@@ -29,9 +30,11 @@ export default function RegisterForm() {
     },
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: IRegisterInput) => {
+    await handleRegisterMutation.mutateAsync(data);
+    router.refresh();
   };
+
   return (
     <div className={cn('flex flex-col gap-6')}>
       <Card className='overflow-hidden p-0'>
