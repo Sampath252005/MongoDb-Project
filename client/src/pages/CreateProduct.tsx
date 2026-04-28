@@ -46,171 +46,147 @@ const CreateProduct = () => {
   };
 
   return (
-    <>
-      <Row
-        gutter={30}
-        style={{
-          height: 'calc(100vh - 6rem)',
-          overflow: 'auto',
-        }}
-      >
-        <Col
-          xs={{ span: 24 }}
-          lg={{ span: 14 }}
-          style={{
-            display: 'flex',
-          }}
-        >
-          <Flex
-            vertical
-            style={{
-              width: '100%',
-              padding: '1rem 2rem',
-              border: '1px solid #164863',
-              borderRadius: '.6rem',
-            }}
-          >
-            <h1
-              style={{
-                marginBottom: '.8rem',
-                fontWeight: '900',
-                textAlign: 'center',
-                textTransform: 'uppercase',
-              }}
-            >
-              Add New Product
-            </h1>
+    <div style={{ padding: '1rem', background: '#f8fafc', minHeight: '100vh' }}>
+      <Row gutter={[24, 24]}>
+        <Col xs={24} lg={14}>
+          <div className="form-card">
+            <div className="form-header">
+              <h1>Add New Product</h1>
+              <p>Create product details, stock, seller, category and brand information</p>
+            </div>
+
             <form onSubmit={handleSubmit(onSubmit)}>
               <CustomInput
-                name='name'
+                name="name"
                 errors={errors}
-                label='Name'
+                label="Name"
                 register={register}
                 required={true}
               />
+
               <CustomInput
                 errors={errors}
-                label='Price'
-                type='number'
-                name='price'
+                label="Price"
+                type="number"
+                name="price"
                 register={register}
                 required={true}
               />
+
               <CustomInput
                 errors={errors}
-                label='Stock'
-                type='number'
-                name='stock'
+                label="Stock"
+                type="number"
+                name="stock"
                 register={register}
                 required={true}
               />
-              <Row>
-                <Col xs={{ span: 23 }} lg={{ span: 6 }}>
-                  <label htmlFor='Size' className='label'>
+
+              <Row className="form-row">
+                <Col xs={24} lg={6}>
+                  <label htmlFor="seller" className="label">
                     Seller
                   </label>
                 </Col>
-                <Col xs={{ span: 23 }} lg={{ span: 18 }}>
+                <Col xs={24} lg={18}>
                   <select
                     {...register('seller', { required: true })}
                     className={`input-field ${errors['seller'] ? 'input-field-error' : ''}`}
                   >
-                    <option value=''>Select Seller*</option>
+                    <option value="">Select Seller*</option>
                     {sellers?.data.map((item: ICategory) => (
-                      <option value={item._id}>{item.name}</option>
+                      <option key={item._id} value={item._id}>
+                        {item.name}
+                      </option>
                     ))}
                   </select>
                 </Col>
               </Row>
 
-              <Row>
-                <Col xs={{ span: 23 }} lg={{ span: 6 }}>
-                  <label htmlFor='Size' className='label'>
+              <Row className="form-row">
+                <Col xs={24} lg={6}>
+                  <label htmlFor="category" className="label">
                     Category
                   </label>
                 </Col>
-                <Col xs={{ span: 23 }} lg={{ span: 18 }}>
+                <Col xs={24} lg={18}>
                   <select
                     {...register('category', { required: true })}
                     className={`input-field ${errors['category'] ? 'input-field-error' : ''}`}
                   >
-                    <option value=''>Select Category*</option>
+                    <option value="">Select Category*</option>
                     {categories?.data.map((item: ICategory) => (
-                      <option value={item._id}>{item.name}</option>
+                      <option key={item._id} value={item._id}>
+                        {item.name}
+                      </option>
                     ))}
                   </select>
                 </Col>
               </Row>
 
-              <Row>
-                <Col xs={{ span: 23 }} lg={{ span: 6 }}>
-                  <label htmlFor='Size' className='label'>
+              <Row className="form-row">
+                <Col xs={24} lg={6}>
+                  <label htmlFor="brand" className="label">
                     Brand
                   </label>
                 </Col>
-                <Col xs={{ span: 23 }} lg={{ span: 18 }}>
+                <Col xs={24} lg={18}>
                   <select
                     {...register('brand')}
                     className={`input-field ${errors['brand'] ? 'input-field-error' : ''}`}
                   >
-                    <option value=''>Select brand</option>
+                    <option value="">Select brand</option>
                     {brands?.data.map((item: ICategory) => (
-                      <option value={item._id}>{item.name}</option>
+                      <option key={item._id} value={item._id}>
+                        {item.name}
+                      </option>
                     ))}
                   </select>
                 </Col>
               </Row>
 
-              <CustomInput label='Description' name='description' register={register} />
+              <CustomInput label="Description" name="description" register={register} />
 
-              <Row>
-                <Col xs={{ span: 23 }} lg={{ span: 6 }}>
-                  <label htmlFor='Size' className='label'>
+              <Row className="form-row">
+                <Col xs={24} lg={6}>
+                  <label htmlFor="size" className="label">
                     Size
                   </label>
                 </Col>
-                <Col xs={{ span: 23 }} lg={{ span: 18 }}>
-                  <select className={`input-field`} {...register('size')}>
-                    <option value=''>Select Product Size</option>
-                    <option value='SMALL'>Small</option>
-                    <option value='MEDIUM'>Medium</option>
-                    <option value='LARGE'>Large</option>
+                <Col xs={24} lg={18}>
+                  <select className="input-field" {...register('size')}>
+                    <option value="">Select Product Size</option>
+                    <option value="SMALL">Small</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="LARGE">Large</option>
                   </select>
                 </Col>
               </Row>
-              <Flex justify='center'>
+
+              <Flex justify="center" style={{ marginTop: '1.5rem' }}>
                 <Button
-                  htmlType='submit'
-                  type='primary'
+                  htmlType="submit"
+                  type="primary"
                   disabled={isCreatingProduct}
-                  style={{ textTransform: 'uppercase', fontWeight: 'bold' }}
+                  className="primary-submit-btn"
                 >
-                  {isCreatingProduct && <SpinnerIcon className='spin' weight='bold' />}
+                  {isCreatingProduct && <SpinnerIcon className="spin" weight="bold" />}
                   Add Product
                 </Button>
               </Flex>
             </form>
-          </Flex>
+          </div>
         </Col>
-        <Col xs={{ span: 24 }} lg={{ span: 10 }}>
-          <Flex
-            vertical
-            style={{
-              width: '100%',
-              height: '100%',
-              padding: '1rem 2rem',
-              border: '1px solid #164863',
-              borderRadius: '.6rem',
-              justifyContent: 'space-around',
-            }}
-          >
+
+        <Col xs={24} lg={10}>
+          <div className="side-card">
             <CreateSeller />
             <CreateCategory />
             <CreateBrand />
-          </Flex>
+          </div>
         </Col>
       </Row>
-    </>
+    </div>
   );
 };
 

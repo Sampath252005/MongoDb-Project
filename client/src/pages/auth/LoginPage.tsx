@@ -12,6 +12,7 @@ const LoginPage = () => {
   const [userLogin, { isLoading }] = useLoginMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const {
     handleSubmit,
     register,
@@ -38,52 +39,51 @@ const LoginPage = () => {
     }
   };
 
-  // if (isLoading) <Loader />;
-  // else
   return (
-    <Flex justify='center' align='center' style={{ height: '100vh' }}>
-      <Flex
-        vertical
-        style={{
-          width: '400px',
-          padding: '3rem',
-          border: '1px solid #164863',
-          borderRadius: '.6rem',
-        }}
-      >
-        <h1 style={{ marginBottom: '.7rem', textAlign: 'center', textTransform: 'uppercase' }}>
-          Login
-        </h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="auth-header">
+          <h1>Login</h1>
+          <p>Welcome back! Please login to continue</p>
+        </div>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
           <input
-            type='text'
+            type="text"
             {...register('email', { required: true })}
-            placeholder='Your Name*'
-            className={`input-field ${errors['email'] ? 'input-field-error' : ''}`}
+            placeholder="Enter email address"
+            className={`input-field modern-input auth-input ${
+              errors['email'] ? 'input-field-error' : ''
+            }`}
           />
+
           <input
-            type='password'
-            placeholder='Your Password*'
-            className={`input-field ${errors['password'] ? 'input-field-error' : ''}`}
+            type="password"
+            placeholder="Enter password"
+            className={`input-field modern-input auth-input ${
+              errors['password'] ? 'input-field-error' : ''
+            }`}
             {...register('password', { required: true })}
           />
-          <Flex justify='center'>
+
+          <Flex justify="center">
             <Button
-              htmlType='submit'
-              type='primary'
+              htmlType="submit"
+              type="primary"
               disabled={isLoading}
-              style={{ textTransform: 'uppercase', fontWeight: 'bold', width: '100%' }}
+              className="auth-submit-btn"
             >
-              {isLoading && <SpinnerIcon className='spin' weight='bold' />}
+              {isLoading && <SpinnerIcon className="spin" weight="bold" />}
               Login
             </Button>
           </Flex>
         </form>
-        <p style={{ marginTop: '1rem' }}>
-          Don't have any account? <Link to='/register'>Resister Here</Link>
+
+        <p className="auth-footer-text">
+          Don&apos;t have any account? <Link to="/register">Register Here</Link>
         </p>
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };
 

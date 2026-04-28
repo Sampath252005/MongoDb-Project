@@ -12,63 +12,56 @@ const ProfilePage = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <>
-      <Flex vertical style={{ minHeight: 'calc(100vh - 10rem)' }}>
-        <Flex justify='center' style={{ width: '100%' }}>
-          <Flex
-            justify='center'
-            style={{
-              width: '250px',
-              height: '250px',
-              border: '2px solid gray',
-              padding: '.5rem',
-              borderRadius: '50%',
-            }}
-          >
+    <div className="profile-page">
+      <div className="page-header profile-header">
+        <h1>My Profile</h1>
+        <p>View and manage your account information</p>
+      </div>
+
+      <Flex vertical align="center" className="profile-layout">
+        <div className="profile-avatar-card">
+          <div className="profile-avatar-wrapper">
             <img
               src={data?.data?.avatar || userProPic}
-              alt='user'
-              style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
+              alt="user"
+              className="profile-avatar"
             />
-          </Flex>
-        </Flex>
+          </div>
+        </div>
 
-        <Flex justify='center' style={{ margin: '1rem' }}>
-          <Flex gap={16} wrap='wrap' justify='center'>
-            <Link to='/edit-profile'>
-              <Button type='primary'>
+        <Flex justify="center" style={{ margin: '1.2rem 0' }}>
+          <Flex gap={12} wrap="wrap" justify="center">
+            <Link to="/edit-profile">
+              <Button type="primary" className="profile-action-btn">
                 <EditOutlined />
                 Edit Profile
               </Button>
             </Link>
-            <Link to='/change-password'>
-              <Button type='primary'>
+
+            <Link to="/change-password">
+              <Button type="primary" className="profile-action-btn secondary-profile-btn">
                 <EditFilled />
                 Change Password
               </Button>
             </Link>
           </Flex>
         </Flex>
-        <Row>
-          <Col xs={{ span: 24 }} lg={{ span: 4 }}></Col>
-          <Col
-            xs={{ span: 24 }}
-            lg={{ span: 16 }}
-            style={{
-              maxWidth: '700px',
-              border: '1px solid gray',
-              padding: '1rem 2rem',
-              borderRadius: '1rem',
-            }}
-          >
-            {profileKeys.map((key) => (
-              <ProfileInfoItems keyName={key.keyName} value={data?.data[key.keyName]} />
-            ))}
+
+        <Row style={{ width: '100%' }} justify="center">
+          <Col xs={{ span: 24 }} lg={{ span: 16 }}>
+            <div className="profile-info-card">
+              {profileKeys.map((key) => (
+                <ProfileInfoItems
+                  key={key.keyName}
+                  keyName={key.keyName}
+                  value={data?.data[key.keyName]}
+                />
+              ))}
+            </div>
           </Col>
-          <Col xs={{ span: 24 }} lg={{ span: 4 }}></Col>
         </Row>
       </Flex>
-    </>
+    </div>
   );
 };
 
@@ -76,9 +69,9 @@ export default ProfilePage;
 
 const ProfileInfoItems = ({ keyName, value }: { keyName: string; value: string }) => {
   return (
-    <Flex style={{ width: '100%' }} gap={24}>
-      <h2 style={{ flex: 1, fontWeight: '700', textTransform: 'capitalize' }}>{keyName}</h2>
-      <h3 style={{ flex: 4, fontWeight: '500' }}>{value}</h3>
+    <Flex className="profile-info-item" gap={24}>
+      <h2>{keyName}</h2>
+      <h3>{value || 'N/A'}</h3>
     </Flex>
   );
 };

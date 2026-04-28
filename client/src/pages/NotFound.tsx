@@ -1,5 +1,6 @@
 import { Button, Flex } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -9,20 +10,21 @@ const NotFound = () => {
   };
 
   return (
-    <Flex justify='center' align='center' style={{ height: '100vh' }}>
-      <Flex
-        vertical
-        gap={10}
-        align='center'
-        style={{ border: '1px solid #000', padding: '3rem', borderRadius: '.8rem' }}
-      >
-        <h1>404! Not Found...</h1>
-        <h3>Your requested page does not exists...!!!</h3>
-        <Button type='primary' onClick={handleClick}>
-          Go Back
-        </Button>
-      </Flex>
-    </Flex>
+    <div className="notfound-page">
+      <div className="notfound-card">
+        <h1 className="notfound-code">404</h1>
+        <h2 className="notfound-title">Page Not Found</h2>
+        <p className="notfound-text">
+          The page you are looking for doesn’t exist or has been moved.
+        </p>
+
+        <Flex gap={10} justify="center">
+          <Button type="primary" onClick={handleClick} className="notfound-btn">
+            <ArrowLeftOutlined /> Go Back
+          </Button>
+        </Flex>
+      </div>
+    </div>
   );
 };
 

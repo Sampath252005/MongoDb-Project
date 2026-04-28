@@ -8,24 +8,33 @@ interface Props {
   defaultValue?: any;
 }
 
-const ModalInput = ({ name, label, handleChange, defaultValue = '', type = 'text' }: Props) => {
+const ModalInput = ({
+  name,
+  label,
+  handleChange,
+  defaultValue = '',
+  type = 'text',
+}: Props) => {
   return (
-    <Row>
-      <Col span={6}>
-        <label htmlFor={name} className='label'>
+    <Row className="form-row" gutter={[8, 8]}>
+      <Col xs={{ span: 24 }} lg={{ span: 6 }}>
+        <label htmlFor={name} className="label">
           {label}
         </label>
       </Col>
-      <Col span={18}>
-        <input
-          id={name}
-          type={type}
-          name={name}
-          value={defaultValue}
-          placeholder={label}
-          onChange={handleChange}
-          className={`input-field`}
-        />
+
+      <Col xs={{ span: 24 }} lg={{ span: 18 }}>
+        <div className="input-wrapper">
+          <input
+            id={name}
+            type={type}
+            name={name}
+            value={defaultValue}
+            placeholder={`Enter ${label}`}
+            onChange={handleChange}
+            className="input-field modern-input"
+          />
+        </div>
       </Col>
     </Row>
   );

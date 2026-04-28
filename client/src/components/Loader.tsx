@@ -2,18 +2,11 @@ import { Flex } from 'antd';
 import loader from '../assets/loading.gif';
 
 const Loader = () => (
-  <Flex
-    gap='small'
-    justify='center'
-    align='center'
-    style={{
-      height: 'calc(100vh - 10rem)',
-    }}
-  >
-    <Flex gap='small' justify='center' align='center'>
-      <img src={loader} alt='loader' />
+  <div className="loader-container">
+    <Flex justify="center" align="center" className="loader-wrapper">
+      <img src={loader} alt="loader" className="loader-img" />
     </Flex>
-  </Flex>
+  </div>
 );
 
 export default Loader;

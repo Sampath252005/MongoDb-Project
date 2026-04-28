@@ -7,35 +7,23 @@ const CreateSeller = () => {
 
   return (
     <>
-      <Flex
-        vertical
-        style={{
-          padding: '1rem 2rem',
-          border: '1px solid #b6cbd7',
-          borderRadius: '.6rem',
-          marginBottom: '1rem',
-        }}
-      >
-        <h3
-          style={{
-            textAlign: 'center',
-            marginBottom: '.6rem',
-            fontWeight: '900',
-            textTransform: 'uppercase',
-          }}
-        >
-          Create New Seller
-        </h3>
+      <div className="action-card">
+        <Flex vertical align="center" justify="center" gap={10}>
+          <h3 className="action-title">Create New Seller</h3>
 
-        <Button
-          htmlType='submit'
-          type='primary'
-          style={{ textTransform: 'uppercase', fontWeight: 'bold' }}
-          onClick={() => setCreateSellerModalOpen(true)}
-        >
-          Create Seller
-        </Button>
-      </Flex>
+          <p className="action-subtitle">
+            Add a new seller to manage product sources
+          </p>
+
+          <Button
+            type="primary"
+            className="action-btn"
+            onClick={() => setCreateSellerModalOpen(true)}
+          >
+            Create Seller
+          </Button>
+        </Flex>
+      </div>
 
       <CreateSellerModal
         openModal={createSellerModalOpen}

@@ -19,20 +19,30 @@ const CustomInput = ({
   type = 'text',
 }: Props) => {
   return (
-    <Row>
-      <Col xs={{ span: 23 }} lg={{ span: 6 }}>
-        <label htmlFor={name} className='label'>
+    <Row className="form-row" gutter={[8, 8]}>
+      <Col xs={{ span: 24 }} lg={{ span: 6 }}>
+        <label htmlFor={name} className="label">
           {label}
+          {required && <span className="required">*</span>}
         </label>
       </Col>
-      <Col xs={{ span: 23 }} lg={{ span: 18 }}>
-        <input
-          id={name}
-          type={type}
-          placeholder={label}
-          {...register(name, { required: required })}
-          className={`input-field ${errors[name] ? 'input-field-error' : ''}`}
-        />
+
+      <Col xs={{ span: 24 }} lg={{ span: 18 }}>
+        <div className="input-wrapper">
+          <input
+            id={name}
+            type={type}
+            placeholder={`Enter ${label}`}
+            {...register(name, { required: required })}
+            className={`input-field modern-input ${
+              errors[name] ? 'input-field-error' : ''
+            }`}
+          />
+
+          {errors[name] && (
+            <span className="input-error-text">{label} is required</span>
+          )}
+        </div>
       </Col>
     </Row>
   );

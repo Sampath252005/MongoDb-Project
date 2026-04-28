@@ -12,6 +12,7 @@ const RegisterPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [userRegistration, { isLoading }] = useRegisterMutation();
+
   const {
     handleSubmit,
     register,
@@ -26,6 +27,7 @@ const RegisterPage = () => {
         toastMessage({ icon: 'error', text: 'Password and confirm password must be same!' });
         return;
       }
+
       if (res.statusCode === 201) {
         const user = decodeToken(res.data.token);
         dispatch(loginUser({ token: res.data.token, user }));
@@ -41,60 +43,68 @@ const RegisterPage = () => {
   };
 
   return (
-    <Flex justify='center' align='center' style={{ height: '100vh' }}>
-      <Flex
-        vertical
-        style={{
-          width: '400px',
-          padding: '3rem',
-          border: '1px solid #164863',
-          borderRadius: '.6rem',
-        }}
-      >
-        <h1 style={{ marginBottom: '.7rem', textAlign: 'center', textTransform: 'uppercase' }}>
-          Register
-        </h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="auth-header">
+          <h1>Register</h1>
+          <p>Create your account to start managing inventory</p>
+        </div>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
           <input
-            type='text'
+            type="text"
             {...register('name', { required: true })}
-            placeholder='Your Name*'
-            className={`input-field ${errors['name'] ? 'input-field-error' : ''}`}
+            placeholder="Enter your name"
+            className={`input-field modern-input auth-input ${
+              errors['name'] ? 'input-field-error' : ''
+            }`}
           />
+
           <input
-            type='text'
+            type="text"
             {...register('email', { required: true })}
-            placeholder='Your Email*'
-            className={`input-field ${errors['email'] ? 'input-field-error' : ''}`}
+            placeholder="Enter email address"
+            className={`input-field modern-input auth-input ${
+              errors['email'] ? 'input-field-error' : ''
+            }`}
           />
+
           <input
-            type='password'
-            placeholder='Your Password*'
+            type="password"
+            placeholder="Enter password"
             {...register('password', { required: true })}
-            className={`input-field ${errors['password'] ? 'input-field-error' : ''}`}
+            className={`input-field modern-input auth-input ${
+              errors['password'] ? 'input-field-error' : ''
+            }`}
           />
+
           <input
-            type='password'
-            placeholder='Confirm Password*'
+            type="password"
+            placeholder="Confirm password"
             {...register('confirmPassword', { required: true })}
-            className={`input-field ${errors['confirmPassword'] ? 'input-field-error' : ''}`}
+            className={`input-field modern-input auth-input ${
+              errors['confirmPassword'] ? 'input-field-error' : ''
+            }`}
           />
-          <Flex justify='center'>
+
+          <Flex justify="center">
             <Button
-              htmlType='submit'
-              type='primary'
-              style={{ textTransform: 'uppercase', fontWeight: 'bold', width: '100%' }}
+              htmlType="submit"
+              type="primary"
+              disabled={isLoading}
+              className="auth-submit-btn"
             >
-              {isLoading && <SpinnerIcon className='spin' weight='bold' />}
+              {isLoading && <SpinnerIcon className="spin" weight="bold" />}
               Register
             </Button>
           </Flex>
         </form>
-        <p style={{ marginTop: '1rem' }}>
-          Already have an account? <Link to='/login'>Login Here</Link>
+
+        <p className="auth-footer-text">
+          Already have an account? <Link to="/login">Login Here</Link>
         </p>
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };
 

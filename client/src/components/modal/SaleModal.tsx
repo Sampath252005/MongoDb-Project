@@ -2,7 +2,11 @@ import { Button, Flex, Modal } from 'antd';
 import { ChangeEvent, useState } from 'react';
 import toastMessage from '../../lib/toastMessage';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { getSaleModal, getSaleModalData, toggleSaleModel } from '../../redux/services/modal.Slice';
+import {
+  getSaleModal,
+  getSaleModalData,
+  toggleSaleModel,
+} from '../../redux/services/modal.Slice';
 import ModalInput from './ModalInput';
 import { useCreateSaleMutation } from '../../redux/features/management/saleApi';
 
@@ -11,7 +15,12 @@ const SaleModal = () => {
   const data = useAppSelector(getSaleModalData);
   const [createNewSale] = useCreateSaleMutation();
   const dispatch = useAppDispatch();
-  const [updateDate, setUpdateDate] = useState({ buyerName: '', quantity: '', date: '' });
+
+  const [updateDate, setUpdateDate] = useState({
+    buyerName: '',
+    quantity: '',
+    date: '',
+  });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setUpdateDate((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -41,49 +50,54 @@ const SaleModal = () => {
   };
 
   return (
-    <>
-      <Modal
-        title='New Product Sale'
-        centered
-        open={modalOpen}
-        onOk={() => dispatch(toggleSaleModel({ open: false, data: null }))}
-        onCancel={() => dispatch(toggleSaleModel({ open: false, data: null }))}
-        footer={[
-          <Button key='back' onClick={() => dispatch(toggleSaleModel({ open: false, data: null }))}>
-            Close
-          </Button>,
-        ]}
-      >
-        <form>
-          <ModalInput
-            handleChange={handleChange}
-            name='buyerName'
-            defaultValue={updateDate?.buyerName}
-            label='Buyer Name'
-          />
-          <ModalInput
-            handleChange={handleChange}
-            label='Quantity'
-            type='number'
-            name='quantity'
-            defaultValue={updateDate?.quantity}
-          />
-          <ModalInput
-            handleChange={handleChange}
-            label='Selling Date'
-            type='date'
-            name='date'
-            defaultValue={updateDate?.date}
-          />
+    <Modal
+      title="New Product Sale"
+      centered
+      open={modalOpen}
+      onOk={() => dispatch(toggleSaleModel({ open: false, data: null }))}
+      onCancel={() => dispatch(toggleSaleModel({ open: false, data: null }))}
+      footer={[
+        <Button
+          key="back"
+          onClick={() => dispatch(toggleSaleModel({ open: false, data: null }))}
+          className="cancel-btn"
+        >
+          Close
+        </Button>,
+      ]}
+      className="custom-modal"
+    >
+      <form className="modal-form">
+        <ModalInput
+          handleChange={handleChange}
+          name="buyerName"
+          defaultValue={updateDate?.buyerName}
+          label="Buyer Name"
+        />
 
-          <Flex justify='center' style={{ margin: '1rem' }}>
-            <Button key='submit' type='primary' onClick={onSubmit}>
-              Sell
-            </Button>
-          </Flex>
-        </form>
-      </Modal>
-    </>
+        <ModalInput
+          handleChange={handleChange}
+          label="Quantity"
+          type="number"
+          name="quantity"
+          defaultValue={updateDate?.quantity}
+        />
+
+        <ModalInput
+          handleChange={handleChange}
+          label="Selling Date"
+          type="date"
+          name="date"
+          defaultValue={updateDate?.date}
+        />
+
+        <Flex justify="center" style={{ marginTop: '1.2rem' }}>
+          <Button key="submit" type="primary" onClick={onSubmit} className="modal-submit-btn">
+            Sell Product
+          </Button>
+        </Flex>
+      </form>
+    </Modal>
   );
 };
 

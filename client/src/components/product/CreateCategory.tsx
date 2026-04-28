@@ -21,43 +21,34 @@ const CreateCategory = () => {
   };
 
   return (
-    <Flex
-      vertical
-      style={{
-        padding: '1rem 2rem',
-        border: '1px solid #b6cbd7',
-        borderRadius: '.6rem',
-        marginBottom: '1rem',
-      }}
-    >
-      <h3
-        style={{
-          textAlign: 'center',
-          marginBottom: '.6rem',
-          fontWeight: '900',
-          textTransform: 'uppercase',
-        }}
-      >
-        Create New Category
-      </h3>
-      <input
-        type='text'
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-        className='input-field'
-        placeholder='Category Name'
-      />
-      <Button
-        htmlType='button'
-        onClick={handleClick}
-        type='primary'
-        disabled={isLoading}
-        style={{ textTransform: 'uppercase', fontWeight: 'bold' }}
-      >
-        {isLoading && <SpinnerIcon className='spin' weight='bold' />}
-        Create Category
-      </Button>
-    </Flex>
+    <div className="action-card">
+      <Flex vertical align="center" gap={10}>
+        <h3 className="action-title">Create New Category</h3>
+
+        <p className="action-subtitle">
+          Organize products by category
+        </p>
+
+        <input
+          type="text"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="input-field modern-input"
+          placeholder="Enter category name"
+        />
+
+        <Button
+          htmlType="button"
+          onClick={handleClick}
+          type="primary"
+          disabled={isLoading}
+          className="action-btn"
+        >
+          {isLoading && <SpinnerIcon className="spin" weight="bold" />}
+          Create Category
+        </Button>
+      </Flex>
+    </div>
   );
 };
 

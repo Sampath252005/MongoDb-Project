@@ -55,63 +55,58 @@ const EditProfilePage = () => {
   };
 
   return (
-    <Row>
-      <Col xs={{ span: 24 }} lg={{ span: 8 }}>
-        <Flex align='center' vertical style={{ margin: '1rem 0' }}>
-          <Flex
-            justify='center'
-            style={{
-              width: '250px',
-              height: '250px',
-              border: '2px solid gray',
-              padding: '.5rem',
-              borderRadius: '50%',
-            }}
-          >
-            <img
-              src={data?.data?.avatar || userProPic}
-              alt='user'
-              style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
-            />
-          </Flex>
-          <Flex style={{ padding: '1rem' }}>
-            <input
-              type='file'
-              name='avatar'
-              id='avatar'
-              placeholder='Change Profile Picture'
-              style={{ display: 'none' }}
-              onChange={handleFileChange}
-            />
-            <label
-              htmlFor='avatar'
-              style={{
-                background: '#164863',
-                color: '#fff',
-                padding: '.5rem 1rem',
-                display: 'flex',
-                gap: '4px',
-                alignItems: 'center',
-                fontSize: '1rem',
-                borderRadius: '4px',
-                cursor: 'pointer',
-              }}
-            >
-              <UploadOutlined />
-              Change Profile Picture
-            </label>
-          </Flex>
-        </Flex>
-      </Col>
-      <Col xs={{ span: 24 }} lg={{ span: 16 }}>
-        <Flex justify='end' style={{ margin: '1rem 0' }}>
-          <Button type='default' onClick={() => navigate('/profile')}>
-            <ArrowLeftOutlined /> Go Back
-          </Button>
-        </Flex>
-        <EditProfileForm data={data?.data} />
-      </Col>
-    </Row>
+    <div className="profile-page">
+      <div className="page-header">
+        <h1>Edit Profile</h1>
+        <p>Update your profile information and profile picture</p>
+      </div>
+
+      <Row gutter={[24, 24]}>
+        <Col xs={{ span: 24 }} lg={{ span: 8 }}>
+          <div className="edit-profile-side-card">
+            <Flex align="center" vertical>
+              <div className="profile-avatar-card">
+                <div className="profile-avatar-wrapper">
+                  <img
+                    src={data?.data?.avatar || userProPic}
+                    alt="user"
+                    className="profile-avatar"
+                  />
+                </div>
+              </div>
+
+              <div className="upload-btn-wrapper">
+                <input
+                  type="file"
+                  name="avatar"
+                  id="avatar"
+                  placeholder="Change Profile Picture"
+                  style={{ display: 'none' }}
+                  onChange={handleFileChange}
+                />
+
+                <label htmlFor="avatar" className="upload-profile-btn">
+                  <UploadOutlined />
+                  Change Profile Picture
+                </label>
+              </div>
+            </Flex>
+          </div>
+        </Col>
+
+        <Col xs={{ span: 24 }} lg={{ span: 16 }}>
+          <div className="edit-profile-form-card">
+            <Flex justify="end" style={{ marginBottom: '1rem' }}>
+              <Button type="default" onClick={() => navigate('/profile')} className="back-btn">
+                <ArrowLeftOutlined /> Go Back
+              </Button>
+            </Flex>
+
+            <EditProfileForm data={data?.data} />
+          </div>
+        </Col>
+      </Row>
+    </div>
   );
 };
 
@@ -120,6 +115,7 @@ export default EditProfilePage;
 const EditProfileForm = ({ data }: { data: any }) => {
   const navigate = useNavigate();
   const [updateProfile] = useUpdateProfileMutation();
+
   const {
     register,
     handleSubmit,
@@ -139,6 +135,7 @@ const EditProfileForm = ({ data }: { data: any }) => {
     }
 
     const toastId = toast.loading('Updating profile...');
+
     try {
       const res = await updateProfile(data).unwrap();
 
@@ -164,12 +161,8 @@ const EditProfileForm = ({ data }: { data: any }) => {
         />
       ))}
 
-      <Flex justify='center'>
-        <Button
-          htmlType='submit'
-          type='primary'
-          style={{ textTransform: 'uppercase', fontWeight: 'bold' }}
-        >
+      <Flex justify="center" style={{ marginTop: '1.5rem' }}>
+        <Button htmlType="submit" type="primary" className="profile-action-btn">
           Update Profile
         </Button>
       </Flex>

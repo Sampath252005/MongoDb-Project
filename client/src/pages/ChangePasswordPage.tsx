@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { useChangePasswordMutation } from '../redux/features/authApi';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeftOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, LockOutlined } from '@ant-design/icons';
 
 const ChangePasswordPage = () => {
   const [changePassword] = useChangePasswordMutation();
@@ -51,44 +51,58 @@ const ChangePasswordPage = () => {
   };
 
   return (
-    <Flex justify='center' align='center' style={{ height: 'calc(100vh - 10rem)' }}>
-      <Flex
-        vertical
-        gap={6}
-        style={{
-          maxWidth: '500px',
-          minWidth: '350px',
-          border: '1px solid gray',
-          padding: '2rem',
-          borderRadius: '.4rem',
-        }}
-      >
-        <Input.Password
-          size='large'
-          placeholder='Old Password'
-          value={oldPassword}
-          onChange={(e) => setOldPassword(e.target.value)}
-        />
-        <Input.Password
-          size='large'
-          placeholder='New Password'
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-        />
-        <Input.Password
-          size='large'
-          placeholder='Confirm Password'
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
-        <Button type='primary' onClick={handleSubmit} disabled={true}>
-          Change Password
-        </Button>
-        <Button type='default' onClick={() => navigate('/profile')}>
-          <ArrowLeftOutlined /> Go Back
-        </Button>
-      </Flex>
-    </Flex>
+    <div className="change-password-page">
+      <div className="change-password-card">
+        <div className="change-password-header">
+          <LockOutlined className="lock-icon" />
+          <h2>Change Password</h2>
+          <p>Update your account password securely</p>
+        </div>
+
+        <Flex vertical gap={12}>
+          <Input.Password
+            size="large"
+            placeholder="Old Password"
+            value={oldPassword}
+            onChange={(e) => setOldPassword(e.target.value)}
+            className="password-input"
+          />
+
+          <Input.Password
+            size="large"
+            placeholder="New Password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            className="password-input"
+          />
+
+          <Input.Password
+            size="large"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="password-input"
+          />
+
+          <Button
+            type="primary"
+            onClick={handleSubmit}
+            disabled={true}
+            className="change-password-btn"
+          >
+            Change Password
+          </Button>
+
+          <Button
+            type="default"
+            onClick={() => navigate('/profile')}
+            className="back-btn"
+          >
+            <ArrowLeftOutlined /> Go Back
+          </Button>
+        </Flex>
+      </div>
+    </div>
   );
 };
 

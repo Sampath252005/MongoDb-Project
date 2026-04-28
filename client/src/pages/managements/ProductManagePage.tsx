@@ -53,24 +53,30 @@ const ProductManagePage = () => {
       title: 'Product Name',
       key: 'name',
       dataIndex: 'name',
+      render: (name: string) => <span className="product-name-cell">{name}</span>,
     },
     {
       title: 'Category',
       key: 'categoryName',
       dataIndex: 'categoryName',
       align: 'center',
+      render: (categoryName: string) => <Tag color="blue">{categoryName}</Tag>,
     },
     {
-      title: 'price',
+      title: 'Price',
       key: 'price',
       dataIndex: 'price',
       align: 'center',
+      render: (price: number) => <span className="price-cell">${price}</span>,
     },
     {
-      title: 'stock',
+      title: 'Stock',
       key: 'stock',
       dataIndex: 'stock',
       align: 'center',
+      render: (stock: number) => (
+        <Tag color={stock > 10 ? 'green' : stock > 0 ? 'orange' : 'red'}>{stock}</Tag>
+      ),
     },
     {
       title: 'Purchase From',
@@ -78,8 +84,8 @@ const ProductManagePage = () => {
       dataIndex: 'sellerName',
       align: 'center',
       render: (sellerName: string) => {
-        if (sellerName === 'DELETED SELLER') return <Tag color='red'>{sellerName}</Tag>;
-        return <Tag color='green'>{sellerName}</Tag>;
+        if (sellerName === 'DELETED SELLER') return <Tag color="red">{sellerName}</Tag>;
+        return <Tag color="green">{sellerName}</Tag>;
       },
     },
     {
@@ -88,7 +94,7 @@ const ProductManagePage = () => {
       align: 'center',
       render: (item) => {
         return (
-          <div style={{ display: 'flex' }}>
+          <div className="table-actions">
             <SellProductModal product={item} />
             <AddStockModal product={item} />
             <UpdateProductModal product={item} />
@@ -101,16 +107,28 @@ const ProductManagePage = () => {
   ];
 
   return (
-    <>
-      <ProductManagementFilter query={query} setQuery={setQuery} />
-      <Table
-        size='small'
-        loading={isFetching}
-        columns={columns}
-        dataSource={tableData}
-        pagination={false}
-      />
-      <Flex justify='center' style={{ marginTop: '1rem' }}>
+    <div className="manage-page">
+      <div className="page-header">
+        <h1>Product Management</h1>
+        <p>Manage products, stock, sales and product updates</p>
+      </div>
+
+      <div className="filter-card">
+        <ProductManagementFilter query={query} setQuery={setQuery} />
+      </div>
+
+      <div className="table-card">
+        <Table
+          size="middle"
+          loading={isFetching}
+          columns={columns}
+          dataSource={tableData}
+          pagination={false}
+          scroll={{ x: true }}
+        />
+      </div>
+
+      <Flex justify="center" style={{ marginTop: '1rem' }}>
         <Pagination
           current={current}
           onChange={onChange}
@@ -118,7 +136,7 @@ const ProductManagePage = () => {
           total={products?.meta?.total}
         />
       </Flex>
-    </>
+    </div>
   );
 };
 
@@ -167,43 +185,46 @@ const SellProductModal = ({ product }: { product: IProduct & { key: string } }) 
 
   return (
     <>
-      <Button
-        onClick={showModal}
-        type='primary'
-        className='table-btn'
-        style={{ backgroundColor: 'royalblue' }}
-      >
+      <Button onClick={showModal} type="primary" className="table-btn sell-btn">
         Sell
       </Button>
-      <Modal title='Sell Product' open={isModalOpen} onCancel={handleCancel} footer={null}>
-        <form onSubmit={handleSubmit(onSubmit)} style={{ marginTop: '1rem' }}>
+
+      <Modal
+        title="Sell Product"
+        open={isModalOpen}
+        onCancel={handleCancel}
+        footer={null}
+        centered
+        className="custom-modal"
+      >
+        <form onSubmit={handleSubmit(onSubmit)} className="modal-form">
           <CustomInput
-            name='buyerName'
-            label='Buyer Name'
+            name="buyerName"
+            label="Buyer Name"
             errors={errors}
             required={true}
             register={register}
-            type='text'
+            type="text"
           />
           <CustomInput
-            name='date'
-            label='Selling date'
+            name="date"
+            label="Selling date"
             errors={errors}
             required={true}
             register={register}
-            type='date'
+            type="date"
           />
           <CustomInput
-            name='quantity'
-            label='Quantity'
+            name="quantity"
+            label="Quantity"
             errors={errors}
             required={true}
             register={register}
-            type='number'
+            type="number"
           />
-          <Flex justify='center' style={{ marginTop: '1rem' }}>
-            <Button htmlType='submit' type='primary' disabled={isLoading}>
-              {isLoading && <SpinnerIcon className='spin' weight='bold' />}
+          <Flex justify="center" style={{ marginTop: '1rem' }}>
+            <Button htmlType="submit" type="primary" disabled={isLoading} className="modal-submit-btn">
+              {isLoading && <SpinnerIcon className="spin" weight="bold" />}
               Sell Product
             </Button>
           </Flex>
@@ -250,20 +271,23 @@ const AddStockModal = ({ product }: { product: IProduct & { key: string } }) => 
 
   return (
     <>
-      <Button
-        onClick={showModal}
-        type='primary'
-        className='table-btn'
-        style={{ backgroundColor: 'blue' }}
-      >
+      <Button onClick={showModal} type="primary" className="table-btn stock-btn">
         Add Stock
       </Button>
-      <Modal title='Add Product to Stock' open={isModalOpen} onCancel={handleCancel} footer={null}>
-        <form onSubmit={handleSubmit(onSubmit)} style={{ margin: '2rem' }}>
-          <CustomInput name='stock' label='Add Stock' register={register} type='number' />
-          <Flex justify='center' style={{ marginTop: '1rem' }}>
-            <Button htmlType='submit' type='primary' disabled={isLoading}>
-              {isLoading && <SpinnerIcon className='spin' weight='bold' />}
+
+      <Modal
+        title="Add Product to Stock"
+        open={isModalOpen}
+        onCancel={handleCancel}
+        footer={null}
+        centered
+        className="custom-modal"
+      >
+        <form onSubmit={handleSubmit(onSubmit)} className="modal-form">
+          <CustomInput name="stock" label="Add Stock" register={register} type="number" />
+          <Flex justify="center" style={{ marginTop: '1rem' }}>
+            <Button htmlType="submit" type="primary" disabled={isLoading} className="modal-submit-btn">
+              {isLoading && <SpinnerIcon className="spin" weight="bold" />}
               Submit
             </Button>
           </Flex>
@@ -298,6 +322,7 @@ const UpdateProductModal = ({ product }: { product: IProduct & { key: string } }
       size: product.size,
     },
   });
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onSubmit = async (data: FieldValues) => {
@@ -324,34 +349,39 @@ const UpdateProductModal = ({ product }: { product: IProduct & { key: string } }
 
   return (
     <>
-      <Button
-        onClick={showModal}
-        type='primary'
-        className='table-btn-small'
-        style={{ backgroundColor: 'green' }}
-      >
+      <Button onClick={showModal} type="primary" className="table-btn-small edit-btn">
         <EditFilled />
       </Button>
-      <Modal title='Update Product Info' open={isModalOpen} onCancel={handleCancel} footer={null}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+
+      <Modal
+        title="Update Product Info"
+        open={isModalOpen}
+        onCancel={handleCancel}
+        footer={null}
+        centered
+        className="custom-modal"
+      >
+        <form onSubmit={handleSubmit(onSubmit)} className="modal-form">
           <CustomInput
-            name='name'
+            name="name"
             errors={errors}
-            label='Name'
+            label="Name"
             register={register}
             required={true}
           />
+
           <CustomInput
             errors={errors}
-            label='Price'
-            type='number'
-            name='price'
+            label="Price"
+            type="number"
+            name="price"
             register={register}
             required={true}
           />
-          <Row>
+
+          <Row className="form-row">
             <Col xs={{ span: 23 }} lg={{ span: 6 }}>
-              <label htmlFor='Size' className='label'>
+              <label htmlFor="Size" className="label">
                 Seller
               </label>
             </Col>
@@ -361,7 +391,7 @@ const UpdateProductModal = ({ product }: { product: IProduct & { key: string } }
                 {...register('seller', { required: true })}
                 className={`input-field ${errors['seller'] ? 'input-field-error' : ''}`}
               >
-                <option value=''>Select Seller*</option>
+                <option value="">Select Seller*</option>
                 {sellers?.data.map((item: ICategory) => (
                   <option value={item._id} key={item._id}>
                     {item.name}
@@ -371,9 +401,9 @@ const UpdateProductModal = ({ product }: { product: IProduct & { key: string } }
             </Col>
           </Row>
 
-          <Row>
+          <Row className="form-row">
             <Col xs={{ span: 23 }} lg={{ span: 6 }}>
-              <label htmlFor='Size' className='label'>
+              <label htmlFor="Size" className="label">
                 Category
               </label>
             </Col>
@@ -382,7 +412,7 @@ const UpdateProductModal = ({ product }: { product: IProduct & { key: string } }
                 {...register('category', { required: true })}
                 className={`input-field ${errors['category'] ? 'input-field-error' : ''}`}
               >
-                <option value=''>Select Category*</option>
+                <option value="">Select Category*</option>
                 {categories?.data.map((item: ICategory) => (
                   <option value={item._id} key={item._id}>
                     {item.name}
@@ -392,9 +422,9 @@ const UpdateProductModal = ({ product }: { product: IProduct & { key: string } }
             </Col>
           </Row>
 
-          <Row>
+          <Row className="form-row">
             <Col xs={{ span: 23 }} lg={{ span: 6 }}>
-              <label htmlFor='Size' className='label'>
+              <label htmlFor="Size" className="label">
                 Brand
               </label>
             </Col>
@@ -403,7 +433,7 @@ const UpdateProductModal = ({ product }: { product: IProduct & { key: string } }
                 {...register('brand')}
                 className={`input-field ${errors['brand'] ? 'input-field-error' : ''}`}
               >
-                <option value=''>Select brand</option>
+                <option value="">Select brand</option>
                 {brands?.data.map((item: ICategory) => (
                   <option value={item._id} key={item._id}>
                     {item.name}
@@ -413,29 +443,26 @@ const UpdateProductModal = ({ product }: { product: IProduct & { key: string } }
             </Col>
           </Row>
 
-          <CustomInput label='Description' name='description' register={register} />
+          <CustomInput label="Description" name="description" register={register} />
 
-          <Row>
+          <Row className="form-row">
             <Col xs={{ span: 23 }} lg={{ span: 6 }}>
-              <label htmlFor='Size' className='label'>
+              <label htmlFor="Size" className="label">
                 Size
               </label>
             </Col>
             <Col xs={{ span: 23 }} lg={{ span: 18 }}>
-              <select className={`input-field`} {...register('size')}>
-                <option value=''>Select Product Size</option>
-                <option value='SMALL'>Small</option>
-                <option value='MEDIUM'>Medium</option>
-                <option value='LARGE'>Large</option>
+              <select className="input-field" {...register('size')}>
+                <option value="">Select Product Size</option>
+                <option value="SMALL">Small</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LARGE">Large</option>
               </select>
             </Col>
           </Row>
-          <Flex justify='center'>
-            <Button
-              htmlType='submit'
-              type='primary'
-              style={{ textTransform: 'uppercase', fontWeight: 'bold' }}
-            >
+
+          <Flex justify="center" style={{ marginTop: '1rem' }}>
+            <Button htmlType="submit" type="primary" className="modal-submit-btn">
               Update
             </Button>
           </Flex>
@@ -475,33 +502,28 @@ const DeleteProductModal = ({ id }: { id: string }) => {
 
   return (
     <>
-      <Button
-        onClick={showModal}
-        type='primary'
-        className='table-btn-small'
-        style={{ backgroundColor: 'red' }}
-      >
+      <Button onClick={showModal} type="primary" className="table-btn-small delete-btn">
         <DeleteFilled />
       </Button>
-      <Modal title='Delete Product' open={isModalOpen} onCancel={handleCancel} footer={null}>
-        <div style={{ textAlign: 'center', padding: '2rem' }}>
-          <h2>Are you want to delete this product?</h2>
-          <h4>You won't be able to revert it.</h4>
-          <div
-            style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '1rem' }}
-          >
-            <Button
-              onClick={handleCancel}
-              type='primary'
-              style={{ backgroundColor: 'lightseagreen' }}
-            >
+
+      <Modal
+        title="Delete Product"
+        open={isModalOpen}
+        onCancel={handleCancel}
+        footer={null}
+        centered
+        className="custom-modal"
+      >
+        <div className="delete-modal-content">
+          <h2>Are you sure you want to delete this product?</h2>
+          <h4>You won&apos;t be able to revert it.</h4>
+
+          <div className="delete-modal-actions">
+            <Button onClick={handleCancel} type="primary" className="cancel-btn">
               Cancel
             </Button>
-            <Button
-              onClick={() => handleDelete(id)}
-              type='primary'
-              style={{ backgroundColor: 'red' }}
-            >
+
+            <Button onClick={() => handleDelete(id)} type="primary" className="confirm-delete-btn">
               Yes! Delete
             </Button>
           </div>

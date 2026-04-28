@@ -12,6 +12,7 @@ interface CreateSellerModalProps {
 
 const CreateSellerModal = ({ openModal, setOpenModal }: CreateSellerModalProps) => {
   const [createSeller, { isLoading }] = useCreateSellerMutation();
+
   const {
     handleSubmit,
     register,
@@ -33,50 +34,58 @@ const CreateSellerModal = ({ openModal, setOpenModal }: CreateSellerModalProps) 
   };
 
   return (
-    <>
-      <Modal
-        title='Create New Seller!'
-        centered
-        open={openModal}
-        onOk={() => setOpenModal(false)}
-        onCancel={() => setOpenModal(false)}
-        footer={[
-          <Button key='back' onClick={() => setOpenModal(false)}>
-            Close
-          </Button>,
-        ]}
-      >
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <CustomInput
-            name='name'
-            errors={errors}
-            register={register}
-            label='Seller Name'
-            required={true}
-          />
-          <CustomInput
-            name='email'
-            errors={errors}
-            register={register}
-            label='Seller Email'
-            required={true}
-          />
-          <CustomInput
-            name='contactNo'
-            errors={errors}
-            register={register}
-            label='Contact No.'
-            required={true}
-          />
-          <Flex justify='center' style={{ margin: '1rem' }}>
-            <Button key='submit' type='primary' htmlType='submit' disabled={isLoading}>
-              {isLoading && <SpinnerIcon className='spin' weight='bold' />}
-              Create Seller
-            </Button>
-          </Flex>
-        </form>
-      </Modal>
-    </>
+    <Modal
+      title="Create New Seller"
+      centered
+      open={openModal}
+      onOk={() => setOpenModal(false)}
+      onCancel={() => setOpenModal(false)}
+      footer={[
+        <Button key="back" onClick={() => setOpenModal(false)} className="cancel-btn">
+          Close
+        </Button>,
+      ]}
+      className="custom-modal"
+    >
+      <form onSubmit={handleSubmit(onSubmit)} className="modal-form">
+        <CustomInput
+          name="name"
+          errors={errors}
+          register={register}
+          label="Seller Name"
+          required={true}
+        />
+
+        <CustomInput
+          name="email"
+          errors={errors}
+          register={register}
+          label="Seller Email"
+          required={true}
+        />
+
+        <CustomInput
+          name="contactNo"
+          errors={errors}
+          register={register}
+          label="Contact No."
+          required={true}
+        />
+
+        <Flex justify="center" style={{ marginTop: '1.2rem' }}>
+          <Button
+            key="submit"
+            type="primary"
+            htmlType="submit"
+            disabled={isLoading}
+            className="modal-submit-btn"
+          >
+            {isLoading && <SpinnerIcon className="spin" weight="bold" />}
+            Create Seller
+          </Button>
+        </Flex>
+      </form>
+    </Modal>
   );
 };
 

@@ -50,71 +50,76 @@ const AddStockModal = () => {
   }, [data]);
 
   return (
-    <>
-      <Modal
-        title='Add Stock'
-        centered
-        open={modalOpen}
-        onOk={() => dispatch(toggleCreateVariantModel({ open: false, data: null }))}
-        onCancel={() => dispatch(toggleCreateVariantModel({ open: false, data: null }))}
-        footer={[
-          <Button
-            key='back'
-            onClick={() => dispatch(toggleCreateVariantModel({ open: false, data: null }))}
-          >
-            Close
-          </Button>,
-        ]}
-      >
-        <form>
-          <ModalInput
-            handleChange={handleChange}
-            name='name'
-            defaultValue={updateDate?.name}
-            label='Name'
-          />
-          <ModalInput
-            handleChange={handleChange}
-            label='Price'
-            type='number'
-            defaultValue={updateDate?.price}
-            name='price'
-          />
-          <ModalInput
-            handleChange={handleChange}
-            label='Quantity'
-            type='number'
-            name='quantity'
-            defaultValue={updateDate?.stock}
-          />
-          <Row>
-            <Col span={6}>
-              <label htmlFor='Size' className='label'>
-                Size
-              </label>
-            </Col>
-            <Col span={18}>
-              <select
-                defaultValue={updateDate?.size}
-                value={updateDate?.size}
-                onChange={handleChange}
-                className={`input-field`}
-              >
-                <option value=''>Select Product Size*</option>
-                <option value='SMALL'>Small</option>
-                <option value='MEDIUM'>Medium</option>
-                <option value='LARGE'>Large</option>
-              </select>
-            </Col>
-          </Row>
-          <Flex justify='center' style={{ margin: '1rem' }}>
-            <Button key='submit' type='primary' onClick={onSubmit}>
-              Create New Variant
-            </Button>
-          </Flex>
-        </form>
-      </Modal>
-    </>
+    <Modal
+      title="Add Stock"
+      centered
+      open={modalOpen}
+      onOk={() => dispatch(toggleCreateVariantModel({ open: false, data: null }))}
+      onCancel={() => dispatch(toggleCreateVariantModel({ open: false, data: null }))}
+      footer={[
+        <Button
+          key="back"
+          onClick={() => dispatch(toggleCreateVariantModel({ open: false, data: null }))}
+          className="cancel-btn"
+        >
+          Close
+        </Button>,
+      ]}
+      className="custom-modal"
+    >
+      <form className="modal-form">
+        <ModalInput
+          handleChange={handleChange}
+          name="name"
+          defaultValue={updateDate?.name}
+          label="Name"
+        />
+
+        <ModalInput
+          handleChange={handleChange}
+          label="Price"
+          type="number"
+          defaultValue={updateDate?.price}
+          name="price"
+        />
+
+        <ModalInput
+          handleChange={handleChange}
+          label="Quantity"
+          type="number"
+          name="quantity"
+          defaultValue={updateDate?.stock}
+        />
+
+        <Row className="form-row" gutter={[8, 8]}>
+          <Col xs={{ span: 24 }} lg={{ span: 6 }}>
+            <label htmlFor="Size" className="label">
+              Size
+            </label>
+          </Col>
+
+          <Col xs={{ span: 24 }} lg={{ span: 18 }}>
+            <select
+              defaultValue={updateDate?.size}
+              value={updateDate?.size}
+              onChange={handleChange}
+              className="input-field modern-input"
+            >
+              <option value="">Select Product Size*</option>
+              <option value="SMALL">Small</option>
+              <option value="MEDIUM">Medium</option>
+              <option value="LARGE">Large</option>
+            </select>
+          </Col>
+        </Row>
+
+        <Flex justify="center" style={{ marginTop: '1.2rem' }}>
+          <Button key="submit" type="primary" onClick={onSubmit} className="modal-submit-btn">
+            Create New Variant
+          </Button>
+        </Flex>
+      </form>
+    </Modal>
   );
 };
 
